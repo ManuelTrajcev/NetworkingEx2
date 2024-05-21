@@ -54,7 +54,6 @@ public class Client extends Thread {
                 }
                 Thread.sleep(1000);
             }
-
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -76,7 +75,6 @@ public class Client extends Thread {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
             if (socket != null) {
                 try {
@@ -85,7 +83,6 @@ public class Client extends Thread {
                     e.printStackTrace();
                 }
             }
-
         }
     }
 

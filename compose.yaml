@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  server-tcp:
+    build:
+      context: .
+      dockerfile: Dockerfile-ServerTCP
+    ports:
+      - "7000:7000"
+    networks:
+      - tcp-server-client-network
+
+  client-tcp:
+    build:
+      context: .
+      dockerfile: Dockerfile-ClientTCP
+    deploy:
+      replicas: 5
+    networks:
+      - tcp-server-client-network
+
+  server-udp:
+    build:
+      context: .
+      dockerfile: Dockerfile-ServerUDP
+    ports:
+      - "5000:5000"
+    networks:
+      - udp-server-client-network
+
+  client-udp:
+    build:
+      context: .
+      dockerfile: Dockerfile-ClientUDP
+    deploy:
+      replicas: 5
+    networks:
+      - udp-server-client-network
+
+networks:
+  tcp-server-client-network:
+    driver: bridge
+  udp-server-client-network:
+    driver: bridge

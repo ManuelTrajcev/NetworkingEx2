@@ -18,11 +18,9 @@ public class Worker extends Thread {
     public void run() {
         BufferedReader reader = null;
         BufferedWriter writer = null;
-
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
 
             System.out.println("SERVER: Processing client...");
             writer.write("Processing client...\n");
@@ -70,24 +68,6 @@ public class Worker extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    public static class WebRequest {
-        private String message;
-
-        public WebRequest(String message) {
-            this.message = message;
-        }
-
-        public static WebRequest of(BufferedReader reader) throws IOException {
-            StringBuilder str = new StringBuilder();
-            String line = "";
-            while (!(line = reader.readLine()).equals("")) {
-                str.append(line).append("\n");
-            }
-            String message = str.toString();
-            return new WebRequest(message);
         }
     }
 }

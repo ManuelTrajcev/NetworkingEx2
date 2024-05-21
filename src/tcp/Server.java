@@ -28,14 +28,12 @@ public class Server extends Thread {
 
         while (true) {
             Socket socket = null;
-
             try {
                 socket = serverSocket.accept();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             System.out.println("SERVER: new client accepted!");
-
             new Worker(socket).start();
         }
     }
