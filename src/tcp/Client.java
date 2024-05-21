@@ -36,9 +36,8 @@ public class Client extends Thread {
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
             System.out.println("CLIENT: starting...");
-            writer.write("log in");
-            writer.flush();
-
+//            writer.write("log in\n");
+//            writer.flush();
 
             String response = reader.readLine();
             System.out.println(response);
@@ -50,7 +49,10 @@ public class Client extends Thread {
 
                 response = reader.readLine();
                 System.out.println("Client received: " + response);
-                Thread.sleep(100);
+                if (response.equals("Logging out") || response.equals("You're not logged in! Closing connection!")){
+                    return;
+                }
+                Thread.sleep(1000);
             }
 
         } catch (UnknownHostException e) {

@@ -23,33 +23,44 @@ public class Worker extends Thread {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
+
+            System.out.println("SERVER: Processing client...");
+            writer.write("Processing client...\n");
+            writer.flush();
+
             String message = reader.readLine();
 
-            System.out.println("Processing client...");
-            if (message.equals("log in")) {
-                writer.write("logged in\n");
-                writer.flush();
-                while (true) {
-                    Server.increaseCounter();
-                    message = reader.readLine();
-                    if (message.equals("log out")) {
-                        writer.write("Logging out\n");
-                        writer.flush();
-                        break;
-                    }
-                    writer.write(message + "\n");
+            while (true) {
+                Server.increaseCounter();
+                System.out.println("SERVER received: " + message);
+                if (message.equals("log in")) {
+                    writer.write("logged in\n");
                     writer.flush();
-                    System.out.println("SERVER received: " + message);
-                }
-            } else {
-                writer.write("You're not logged in!\n");
-                writer.write("Closing connection!!\n");
-                writer.flush();
-                socket.close();
-            }
 
+                    while (true) {
+                        message = reader.readLine();
+                        Server.increaseCounter();
+                        System.out.println("SERVER received: " + message);
+                        if (message.equals("log out")) {
+                            writer.write("Logging out\n");
+                            Thread.sleep(1000);
+                            writer.flush();
+                            return;
+                        }
+                        writer.write(message + "\n");
+                        writer.flush();
+                    }
+                } else {
+                    writer.write("You're not logged in! Closing connection!\n");
+                    writer.flush();
+                    Thread.sleep(1000);
+                    break;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             try {
                 writer.flush();

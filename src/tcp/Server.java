@@ -36,7 +36,6 @@ public class Server extends Thread {
             }
             System.out.println("SERVER: new client accepted!");
 
-            increaseCounter();
             new Worker(socket).start();
         }
     }
